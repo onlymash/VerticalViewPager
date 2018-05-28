@@ -17,14 +17,12 @@ import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.support.v4.view.AccessibilityDelegateCompat;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.view.accessibility.AccessibilityRecordCompat;
-import android.support.v4.widget.EdgeEffectCompat;
+//import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.FocusFinder;
@@ -39,6 +37,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
+import android.widget.EdgeEffect;
 import android.widget.Scroller;
 
 import java.lang.reflect.Method;
@@ -98,7 +97,7 @@ public class VerticalViewPager extends ViewGroup {
         }
     };
 
-    private final ArrayList<ItemInfo> mItems = new ArrayList<ItemInfo>();
+    private final ArrayList<ItemInfo> mItems = new ArrayList<>();
     private final ItemInfo mTempItem = new ItemInfo();
 
     private final Rect mTempRect = new Rect();
@@ -172,8 +171,8 @@ public class VerticalViewPager extends ViewGroup {
     private boolean mFakeDragging;
     private long mFakeDragBeginTime;
 
-    private EdgeEffectCompat mTopEdge;
-    private EdgeEffectCompat mBottomEdge;
+    private EdgeEffect mTopEdge;
+    private EdgeEffect mBottomEdge;
 
     private boolean mFirstLayout = true;
     private boolean mNeedCalculatePageOffsets = false;
@@ -222,7 +221,7 @@ public class VerticalViewPager extends ViewGroup {
      * Used internally to monitor when adapters are switched.
      */
     interface OnAdapterChangeListener {
-        public void onAdapterChanged(PagerAdapter oldAdapter, PagerAdapter newAdapter);
+        void onAdapterChanged(PagerAdapter oldAdapter, PagerAdapter newAdapter);
     }
 
     /**
@@ -251,11 +250,11 @@ public class VerticalViewPager extends ViewGroup {
         final ViewConfiguration configuration = ViewConfiguration.get(context);
         final float density = context.getResources().getDisplayMetrics().density;
 
-        mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
+        mTouchSlop = configuration.getScaledPagingTouchSlop();
         mMinimumVelocity = (int) (MIN_FLING_VELOCITY * density);
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
-        mTopEdge = new EdgeEffectCompat(context);
-        mBottomEdge = new EdgeEffectCompat(context);
+        mTopEdge = new EdgeEffect(context);
+        mBottomEdge = new EdgeEffect(context);
 
         mFlingDistance = (int) (MIN_DISTANCE_FOR_FLING * density);
         mCloseEnough = (int) (CLOSE_ENOUGH * density);
@@ -1012,7 +1011,7 @@ public class VerticalViewPager extends ViewGroup {
     private void sortChildDrawingOrder() {
         if (mDrawingOrder != DRAW_ORDER_DEFAULT) {
             if (mDrawingOrderedChildren == null) {
-                mDrawingOrderedChildren = new ArrayList<View>();
+                mDrawingOrderedChildren = new ArrayList<>();
             } else {
                 mDrawingOrderedChildren.clear();
             }
@@ -1140,6 +1139,7 @@ public class VerticalViewPager extends ViewGroup {
                     + " position=" + position + "}";
         }
 
+        @SuppressWarnings("deprecation")
         public static final Parcelable.Creator<SavedState> CREATOR
                 = ParcelableCompat.newCreator(new ParcelableCompatCreatorCallbacks<SavedState>() {
             @Override
@@ -1354,8 +1354,7 @@ public class VerticalViewPager extends ViewGroup {
 
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 if (lp == null || !lp.isDecor) {
-                    final int heightSpec = MeasureSpec.makeMeasureSpec(
-                            (int) (childHeightSize * lp.heightFactor), MeasureSpec.EXACTLY);
+                    final int heightSpec = MeasureSpec.makeMeasureSpec((int) (childHeightSize * lp.heightFactor), MeasureSpec.EXACTLY);
                     child.measure(mChildWidthMeasureSpec, heightSpec);
                 }
             }
@@ -1679,8 +1678,8 @@ public class VerticalViewPager extends ViewGroup {
         final int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             final int layerType = enable ?
-                    ViewCompat.LAYER_TYPE_HARDWARE : ViewCompat.LAYER_TYPE_NONE;
-            ViewCompat.setLayerType(getChildAt(i), layerType, null);
+                    View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+            getChildAt(i).setLayerType(layerType, null);
         }
     }
 
@@ -1907,8 +1906,7 @@ public class VerticalViewPager extends ViewGroup {
                 if (mIsBeingDragged) {
                     final VelocityTracker velocityTracker = mVelocityTracker;
                     velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-                    int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(
-                            velocityTracker, mActivePointerId);
+                    int initialVelocity = (int)velocityTracker.getYVelocity(mActivePointerId);
                     mPopulatePending = true;
                     final int height = getClientHeight();
                     final int scrollY = getScrollY();
@@ -1924,7 +1922,7 @@ public class VerticalViewPager extends ViewGroup {
 
                     mActivePointerId = INVALID_POINTER;
                     endDrag();
-                    needsInvalidate = mTopEdge.onRelease() | mBottomEdge.onRelease();
+//                    needsInvalidate = mTopEdge.onRelease() | mBottomEdge.onRelease();
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -1932,7 +1930,7 @@ public class VerticalViewPager extends ViewGroup {
                     scrollToItem(mCurItem, true, 0, false, 0);
                     mActivePointerId = INVALID_POINTER;
                     endDrag();
-                    needsInvalidate = mTopEdge.onRelease() | mBottomEdge.onRelease();
+//                    needsInvalidate = mTopEdge.onRelease() | mBottomEdge.onRelease();
                 }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN: {
@@ -1989,14 +1987,14 @@ public class VerticalViewPager extends ViewGroup {
             if (topAbsolute) {
                 float over = topBound - scrollY;
                 //noinspection deprecation
-                needsInvalidate = mTopEdge.onPull(Math.abs(over) / height);
+//                needsInvalidate = mTopEdge.onPull(Math.abs(over) / height);
             }
             scrollY = topBound;
         } else if (scrollY > bottomBound) {
             if (bottomAbsolute) {
                 float over = scrollY - bottomBound;
                 //noinspection deprecation
-                needsInvalidate = mBottomEdge.onPull(Math.abs(over) / height);
+//                needsInvalidate = mBottomEdge.onPull(Math.abs(over) / height);
             }
             scrollY = bottomBound;
         }
@@ -2079,9 +2077,9 @@ public class VerticalViewPager extends ViewGroup {
         super.draw(canvas);
         boolean needsInvalidate = false;
 
-        final int overScrollMode = ViewCompat.getOverScrollMode(this);
-        if (overScrollMode == ViewCompat.OVER_SCROLL_ALWAYS ||
-                (overScrollMode == ViewCompat.OVER_SCROLL_IF_CONTENT_SCROLLS &&
+        final int overScrollMode = this.getOverScrollMode();
+        if (overScrollMode == View.OVER_SCROLL_ALWAYS ||
+                (overScrollMode == View.OVER_SCROLL_IF_CONTENT_SCROLLS &&
                         mAdapter != null && mAdapter.getCount() > 1)) {
             if (!mTopEdge.isFinished()) {
                 final int restoreCount = canvas.save();
@@ -2208,8 +2206,7 @@ public class VerticalViewPager extends ViewGroup {
 
         final VelocityTracker velocityTracker = mVelocityTracker;
         velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-        int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(
-                velocityTracker, mActivePointerId);
+        int initialVelocity = (int) velocityTracker.getYVelocity(mActivePointerId);
         mPopulatePending = true;
         final int height = getClientHeight();
         final int scrollY = getScrollY();
@@ -2620,7 +2617,7 @@ public class VerticalViewPager extends ViewGroup {
     @Override
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
         // Dispatch scroll events from this ViewPager.
-        if (event.getEventType() == AccessibilityEventCompat.TYPE_VIEW_SCROLLED) {
+        if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
             return super.dispatchPopulateAccessibilityEvent(event);
         }
 
