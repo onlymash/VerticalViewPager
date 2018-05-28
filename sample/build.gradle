@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 repositories {
@@ -6,9 +6,9 @@ repositories {
 }
 
 dependencies {
-    compile project(':library')
-    compile 'com.android.support:support-v13:19.0.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation project(':library')
+    implementation 'com.android.support:support-v13:27.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 android {
@@ -19,7 +19,6 @@ android {
     def androidBuildToolsVersion = project.androidBuildToolsVersion.toString()
 
     compileSdkVersion androidCompileSdkVersion
-    buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
         minSdkVersion androidMinSdkVersion
