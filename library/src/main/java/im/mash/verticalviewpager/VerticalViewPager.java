@@ -85,18 +85,11 @@ public class VerticalViewPager extends ViewGroup {
         float offset;
     }
 
-    private static final Comparator<ItemInfo> COMPARATOR = new Comparator<ItemInfo>() {
-        @Override
-        public int compare(ItemInfo lhs, ItemInfo rhs) {
-            return lhs.position - rhs.position;
-        }
-    };
+    private static final Comparator<ItemInfo> COMPARATOR = (lhs, rhs) -> lhs.position - rhs.position;
 
-    private static final Interpolator sInterpolator = new Interpolator() {
-        public float getInterpolation(float t) {
-            t -= 1.0f;
-            return t * t * t * t * t + 1.0f;
-        }
+    private static final Interpolator sInterpolator = t -> {
+        t -= 1.0f;
+        return t * t * t * t * t + 1.0f;
     };
 
     private final ArrayList<ItemInfo> mItems = new ArrayList<>();
@@ -194,11 +187,9 @@ public class VerticalViewPager extends ViewGroup {
      * Indicates that the pager is in the process of settling to a final position.
      */
     public static final int SCROLL_STATE_SETTLING = 2;
-    private final Runnable mEndScrollRunnable = new Runnable() {
-        public void run() {
-            setScrollState(SCROLL_STATE_IDLE);
-            populate();
-        }
+    private final Runnable mEndScrollRunnable = () -> {
+        setScrollState(SCROLL_STATE_IDLE);
+        populate();
     };
     private int mScrollState = SCROLL_STATE_IDLE;
     /**
