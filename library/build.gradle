@@ -28,4 +28,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
-//apply from: project.rootProject.file('bintray.gradle')
+apply from: "${rootProject.projectDir}/bintray.gradle"
