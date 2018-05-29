@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion rootProject.sdk_version
@@ -28,4 +28,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
-apply from: "${rootProject.projectDir}/bintray.gradle"
+publish {
+    userOrg = 'onlymash'
+    groupId = 'im.mash'
+    artifactId = 'im.mash.verticalviewpager'
+    publishVersion = '27.1.1'
+    desc = 'vertical viewPager'
+    website = 'https://github.com/onlymash/vertical-viewpager'
+}
