@@ -2,19 +2,19 @@
 ext {
     siteUrl = 'https://github.com/onlymash/vertical-viewpager'
     gitUrl = 'https://github.com/onlymash/vertical-viewpager.git'
-    bintrayRepo = 'vertical-viewpager'
+    bintrayRepo = 'maven'
+    bintrayName = "vertical-viewpager"
+    libraryName = "library"
+    libraryVersion = "27.1.1"
+    libraryDescription = "Vertical ViewPager"
     publishedGroupId = 'im.mash.verticalviewpager'
-    developerId = 'onlymash'
-    developerName = 'onlymash'
-    developerEmail = 'im@mash.im'
+    developerId = 'fiepi'
+    developerName = 'Mash Kyrielight'
+    developerEmail = 'im@fiepi.me'
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
-    libraryVersion = "27.1.1"
-    libraryDescription = "Vertical ViewPager"
     artifact = "vertical-viewpager"
-    libraryName = "library"
-    bintrayName = "vertical-viewpager"
 }
 
 apply plugin: 'com.github.dcendents.android-maven'
