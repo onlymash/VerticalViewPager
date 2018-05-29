@@ -2,7 +2,7 @@
 ext {
     siteUrl = 'https://github.com/onlymash/vertical-viewpager'
     gitUrl = 'https://github.com/onlymash/vertical-viewpager.git'
-    bintrayRepo = 'vertical-viewpager'
+    bintrayRepo = 'maven'
     publishedGroupId = 'im.mash.verticalviewpager'
     developerId = 'onlymash'
     developerName = 'onlymash'
