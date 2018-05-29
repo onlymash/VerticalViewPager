@@ -1,8 +1,8 @@
 
 ext {
-    siteUrl = 'https://github.com/onlymash/VerticalViewPager'
-    gitUrl = 'https://github.com/onlymash/VerticalViewPager.git'
-    bintrayRepo = 'VerticalViewPager'
+    siteUrl = 'https://github.com/onlymash/vertical-viewpager'
+    gitUrl = 'https://github.com/onlymash/vertical-viewpager.git'
+    bintrayRepo = 'vertical-viewpager'
     publishedGroupId = 'im.mash.verticalviewpager'
     developerId = 'onlymash'
     developerName = 'onlymash'
@@ -12,7 +12,7 @@ ext {
     allLicenses = ["Apache-2.0"]
     libraryVersion = "27.1.1"
     libraryDescription = "Vertical ViewPager"
-    artifact = "VerticalViewPager"
+    artifact = "vertical-viewpager"
     libraryName = "library"
     bintrayName = "vertical-viewpager"
 }
