@@ -1,8 +1,15 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext {
+        kotlin_version = '1.2.41'
+        support_library_version = '27.1.1'
+        min_sdk_version = 21
+        sdk_version = 27
+        build_tools_version = '27.0.3'
+    }
     repositories {
-        mavenCentral()
         google()
+        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
@@ -11,14 +18,15 @@ buildscript {
 }
 
 allprojects {
-    version = VERSION_NAME
-    group = GROUP
-
     repositories {
-        mavenCentral()
         google()
+        jcenter()
+        mavenCentral()
     }
 }
 
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
 
 apply plugin: 'android-reporting'

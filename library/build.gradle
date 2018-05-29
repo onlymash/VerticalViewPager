@@ -1,30 +1,19 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    implementation 'com.android.support:support-v4:27.1.1'
+    implementation "com.android.support:support-v4:$support_library_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 android {
-    def androidCompileSdkVersion = project.androidCompileSdkVersion.toInteger()
-    def androidTargetSdkVersion = project.androidTargetSdkVersion.toInteger()
-    def androidMinSdkVersion = project.androidMinSdkVersion.toInteger()
-    def androidBuildToolsVersion = project.androidBuildToolsVersion.toString()
-
-    compileSdkVersion androidCompileSdkVersion
-
+    compileSdkVersion rootProject.sdk_version
+    buildToolsVersion rootProject.build_tools_version
     defaultConfig {
-        minSdkVersion androidMinSdkVersion
-        targetSdkVersion androidTargetSdkVersion
-        versionName project.VERSION_NAME
-        versionCode Integer.parseInt(project.VERSION_CODE)
+        minSdkVersion rootProject.min_sdk_version
+        targetSdkVersion rootProject.sdk_version
+        versionCode 3
+        versionName rootProject.support_library_version
     }
-    buildToolsVersion '27.0.3'
 }
 
-apply from: '../mvn_push.gradle'
