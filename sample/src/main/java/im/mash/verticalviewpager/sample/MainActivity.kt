@@ -1,21 +1,22 @@
-package fr.castorflex.android.verticalviewpager.sample
+package im.mash.verticalviewpager.sample
 
-import android.app.Activity
-import android.app.Fragment
-import android.app.FragmentManager
+import android.support.v4.app.FragmentManager
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v13.app.FragmentPagerAdapter
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import im.mash.verticalviewpager.VerticalViewPager
 
 import java.util.Locale
 
-import fr.castorflex.android.verticalviewpager.VerticalViewPager
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var verticalViewPager: VerticalViewPager
 
@@ -23,10 +24,9 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         verticalViewPager = findViewById<View>(R.id.verticalviewpager) as VerticalViewPager
-
-        verticalViewPager.adapter = DummyAdapter(fragmentManager)
+        verticalViewPager.adapter = DummyAdapter(supportFragmentManager)
         verticalViewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.pagemargin)
-        verticalViewPager.setPageMarginDrawable(ColorDrawable(resources.getColor(android.R.color.holo_green_dark)))
+        verticalViewPager.setPageMarginDrawable(ColorDrawable(ContextCompat.getColor(this, android.R.color.holo_blue_light)))
 
         verticalViewPager.setPageTransformer(true) { view, position ->
             val pageWidth = view.width
@@ -95,7 +95,11 @@ class MainActivity : Activity() {
                                   savedInstanceState: Bundle?): View? {
             val rootView = inflater.inflate(R.layout.fragment_layout, container, false)
             val textView = rootView.findViewById<View>(R.id.textview) as TextView
-            textView.text = Integer.toString(if (arguments != null) arguments.getInt(ARG_SECTION_NUMBER,1) else 1)
+            if (arguments != null) {
+                textView.text = arguments?.getInt(ARG_SECTION_NUMBER,1).toString()
+            } else {
+                textView.text = "1"
+            }
             return rootView
         }
 
