@@ -12,6 +12,10 @@ android {
         versionCode 3
         versionName rootProject.support_library_version
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 
